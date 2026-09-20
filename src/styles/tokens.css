@@ -1,0 +1,104 @@
+/* ============================================================
+   Weather — weather.alexball.dev
+   Design system: "Meteorological Operations Center"
+   An evolution of the Executive Engineer system used on
+   alexball.dev: same dark ground, same hairline vocabulary,
+   same three typefaces — retuned for operational density,
+   with blue promoted to the primary functional accent and
+   gold kept as a thin connective thread.
+   Dark only. Not an official NOAA/NWS product.
+   ============================================================ */
+
+:root {
+  /* ---- Ground ------------------------------------------------ */
+  --bg: #0b0f14;
+  --bg-2: #0e141c;
+  --bg-3: #121a24;
+
+  /* Layered surfaces, lightest last. */
+  --surface: rgba(255, 255, 255, 0.022);
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --glass: rgba(17, 23, 31, 0.55);
+  --glass-2: rgba(20, 27, 37, 0.72);
+
+  /* Three graduated hairlines. Borders in this system are always 1px. */
+  --line: rgba(255, 255, 255, 0.07);
+  --line-soft: rgba(255, 255, 255, 0.045);
+  --hair: rgba(255, 255, 255, 0.1);
+
+  /* ---- Brand ------------------------------------------------- */
+  --blue: #2d7ff9;
+  --blue-300: #6ba5fb;
+  --gold: #d4af37;
+  --gold-soft: #e6c766;
+
+  --accent: var(--blue);
+  --accent-300: var(--blue-300);
+
+  /* ---- Text -------------------------------------------------- */
+  --white: #ffffff;
+  --text: #d1d5db;
+  --muted: #94a3b8;
+  --faint: #5b6676;
+
+  /* ---- Meteorological semantics -----------------------------
+     Used sparingly and only where the data earns it: severity,
+     precipitation, and status. The interface stays charcoal. */
+  --wx-info: #38bdf8;         /* informational / observed data  */
+  --wx-normal: #34d399;       /* nominal / all clear            */
+  --wx-elevated: #facc15;     /* elevated attention / advisory  */
+  --wx-significant: #fb923c;  /* significant weather / watch    */
+  --wx-danger: #f0554d;       /* warning / dangerous            */
+  --wx-extreme: #a78bfa;      /* extreme / specialized product  */
+
+  /* ---- Geometry ---------------------------------------------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+
+  --shadow-card:
+    0 1px 0 rgba(255, 255, 255, 0.035) inset,
+    0 24px 60px -30px rgba(0, 0, 0, 0.85);
+  --shadow-pop:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 40px 90px -34px rgba(0, 0, 0, 0.92);
+  --glow-accent: 0 0 0 1px rgba(45, 127, 249, 0.22), 0 18px 46px -26px rgba(45, 127, 249, 0.6);
+
+  /* ---- Rhythm ------------------------------------------------ */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 26px;
+  --s-7: 34px;
+  --s-8: 46px;
+
+  --maxw: 1440px;
+  --gutter: clamp(16px, 3.2vw, 44px);
+  --panel-pad: clamp(18px, 1.9vw, 26px);
+  --grid-gap: var(--s-5);
+
+  /* ---- Motion ------------------------------------------------ */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --sweep-duration: 24s;
+
+  /* ---- Type -------------------------------------------------- */
+  --font-display: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  --label-size: 0.688rem;
+  --label-track: 0.18em;
+}
+
+/*
+  Advanced mode reveals more rows per panel, so the rhythm tightens a step. The structure
+  is unchanged — this is the same dashboard, packed closer.
+*/
+[data-mode="advanced"] {
+  --panel-pad: clamp(15px, 1.6vw, 22px);
+  --grid-gap: var(--s-4);
+}

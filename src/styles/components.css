@@ -1,0 +1,409 @@
+/* ---------- Panel ------------------------------------------------------- */
+
+/*
+  The single surface primitive. A faint top-down gradient over glass, a hairline border,
+  and a masked gradient ring on ::before that catches light along the top edge.
+*/
+.panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0) 45%),
+    var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  isolation: isolate;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), transparent 38%);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.panel__body {
+  padding: var(--panel-pad);
+}
+
+.panel--flush .panel__body {
+  padding: 0;
+}
+
+/* Thin L-brackets at the corners of the hero — a restrained instrument-frame accent. */
+.corners span {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 1px solid color-mix(in oklab, var(--gold), transparent 62%);
+  pointer-events: none;
+}
+
+.corners span:nth-child(1) {
+  top: 10px;
+  left: 10px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.corners span:nth-child(2) {
+  top: 10px;
+  right: 10px;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.corners span:nth-child(3) {
+  bottom: 10px;
+  left: 10px;
+  border-right: 0;
+  border-top: 0;
+}
+
+.corners span:nth-child(4) {
+  bottom: 10px;
+  right: 10px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* ---------- Section headers --------------------------------------------- */
+
+.panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--panel-pad);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  font-weight: 500;
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The gold tick is the one persistent thread back to alexball.dev. */
+.eyebrow::before {
+  content: "";
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.panel-header__aside {
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Buttons ----------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--hair);
+  color: var(--white);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--accent {
+  border-color: color-mix(in oklab, var(--accent), transparent 55%);
+  background: color-mix(in oklab, var(--accent), transparent 86%);
+  color: var(--accent-300);
+}
+
+.btn--accent:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--accent), transparent 76%);
+  border-color: color-mix(in oklab, var(--accent), transparent 35%);
+  color: var(--white);
+}
+
+.btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--surface);
+  color: var(--white);
+}
+
+.btn__icon {
+  flex: none;
+}
+
+/* ---------- Metadata rows ----------------------------------------------- */
+
+/*
+  The advanced-mode workhorse: a fixed mono label column against a right-aligned value.
+  Reads like a console readout without becoming a JSON dump.
+*/
+.meta-table {
+  display: grid;
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: minmax(84px, 0.9fr) 1.4fr;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding: 7px 11px;
+  background: rgba(11, 15, 20, 0.72);
+}
+
+.meta-row__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.meta-row__value {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.meta-row__value--dim {
+  color: var(--faint);
+}
+
+/* ---------- Status dot -------------------------------------------------- */
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+  background: currentColor;
+  box-shadow: 0 0 0 3px color-mix(in oklab, currentColor, transparent 84%);
+}
+
+.status-live {
+  color: var(--wx-normal);
+}
+
+.status-recent {
+  color: var(--wx-elevated);
+}
+
+.status-stale {
+  color: var(--wx-significant);
+}
+
+.status-off {
+  color: var(--faint);
+}
+
+/* ---------- Skeletons --------------------------------------------------- */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.055),
+    transparent
+  );
+  animation: skeleton-sweep 1.8s var(--ease) infinite;
+}
+
+@keyframes skeleton-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    display: none;
+  }
+}
+
+/* ---------- Notices ----------------------------------------------------- */
+
+.notice {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--faint);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.notice--error {
+  border-left-color: var(--wx-danger);
+}
+
+.notice--info {
+  border-left-color: var(--wx-info);
+}
+
+.notice__icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--muted);
+}
+
+.notice--error .notice__icon {
+  color: var(--wx-danger);
+}
+
+.notice--info .notice__icon {
+  color: var(--wx-info);
+}
+
+.notice__title {
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.notice__message {
+  margin-top: 5px;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.notice__actions {
+  margin-top: var(--s-3);
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+/* ---------- Metadata disclosure ------------------------------------------ */
+
+/*
+  A plain labelled block on desktop; a real disclosure below the stacking breakpoint,
+  where advanced metadata would otherwise push the alerts and forecast off screen.
+*/
+.meta-block__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-2);
+  list-style: none;
+  cursor: default;
+}
+
+.meta-block__summary::-webkit-details-marker {
+  display: none;
+}
+
+.meta-block__chevron {
+  display: none;
+  color: var(--faint);
+  transition: transform 0.2s var(--ease);
+}
+
+@media (max-width: 880px) {
+  .meta-block__summary {
+    cursor: pointer;
+    padding: 9px 11px;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+
+  .meta-block[open] .meta-block__summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+  }
+
+  .meta-block__chevron {
+    display: block;
+  }
+
+  .meta-block[open] .meta-block__chevron {
+    transform: rotate(180deg);
+  }
+
+  .meta-block[open] .meta-block__body .meta-table {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
