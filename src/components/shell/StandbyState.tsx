@@ -38,7 +38,7 @@ export function StandbyState() {
           </p>
 
           <div className="standby__actions">
-            <LocationSearch />
+            <LocationSearch withLocateButton={false} />
             <UseMyLocationButton />
           </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { HourlyTrend } from '@/components/forecast/HourlyTrend';
+import { HourlyTrend, hourlyTrendRange } from '@/components/forecast/HourlyTrend';
 import { WeatherIcon } from '@/components/weather/WeatherIcon';
 import { Panel, PanelHeader } from '@/components/ui/Panel';
 import { Notice } from '@/components/ui/Readouts';
@@ -68,6 +68,8 @@ export function HourlyForecast({ snapshot }: { snapshot: WeatherSnapshot }) {
   const { isAdvanced } = useMode();
   const { hourly, location } = snapshot;
   const periods = hourly.periods;
+  const range = hourlyTrendRange(periods);
+  const hasPrecip = periods.some((period) => (period.precipProbability ?? 0) > 0);
 
   return (
     <Panel className="dashboard__hourly panel--flush" labelledBy="hourly-heading">
@@ -76,6 +78,24 @@ export function HourlyForecast({ snapshot }: { snapshot: WeatherSnapshot }) {
         id="hourly-heading"
         aside={periods.length > 0 ? `NEXT ${periods.length} HR` : undefined}
       />
+
+      {range ? (
+        <div className="hourly__legend">
+          <span className="hourly__legend-item">
+            <span className="hourly__swatch hourly__swatch--temp" aria-hidden="true" />
+            Temperature
+            <span className="hourly__legend-range">
+              {Math.round(range.min)}° to {Math.round(range.max)}°
+            </span>
+          </span>
+          {hasPrecip ? (
+            <span className="hourly__legend-item">
+              <span className="hourly__swatch hourly__swatch--precip" aria-hidden="true" />
+              Precip chance
+            </span>
+          ) : null}
+        </div>
+      ) : null}
 
       {periods.length === 0 ? (
         <div className="panel__body">
@@ -94,7 +114,7 @@ export function HourlyForecast({ snapshot }: { snapshot: WeatherSnapshot }) {
           aria-label="Hourly forecast, scroll horizontally"
         >
           <div style={{ minWidth: 'max-content' }}>
-            <HourlyTrend periods={periods} columnWidth={COLUMN_WIDTH} />
+            {range ? <HourlyTrend periods={periods} columnWidth={COLUMN_WIDTH} range={range} /> : null}
             <ul className="hourly__cols">
               {periods.map((period, index) => (
                 <HourlyColumn

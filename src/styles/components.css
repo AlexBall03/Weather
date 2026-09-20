@@ -379,7 +379,7 @@
   transition: transform 0.2s var(--ease);
 }
 
-@media (max-width: 880px) {
+@media (max-width: 1080px) {
   .meta-block__summary {
     cursor: pointer;
     padding: 9px 11px;
@@ -406,4 +406,63 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+}
+
+/* ---------- Modal sheet ---------------------------------------------------- */
+
+/*
+  Native <dialog>, so focus trapping, Escape-to-close and inertness of the page behind
+  come from the browser rather than hand-rolled JavaScript.
+*/
+.sheet {
+  width: min(420px, calc(100vw - 2 * var(--s-4)));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  overflow: visible;
+}
+
+.sheet::backdrop {
+  background: rgba(5, 8, 12, 0.72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.sheet__panel {
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(13, 18, 25, 0.985);
+  box-shadow: var(--shadow-pop);
+}
+
+.sheet__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+
+.sheet__close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.sheet__close:hover {
+  border-color: var(--hair);
+  color: var(--white);
 }

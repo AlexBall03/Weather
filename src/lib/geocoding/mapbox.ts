@@ -100,8 +100,8 @@ export const mapboxGeocoder: GeocodingProvider = {
     url.searchParams.set('limit', String(options?.limit ?? 5));
     url.searchParams.set('country', COVERED_COUNTRIES);
     url.searchParams.set('language', 'en');
-    // Submit-based search, so we want settled results rather than prefix guesses.
-    url.searchParams.set('autocomplete', 'false');
+    // Prefix matching for as-you-type suggestions; exact matching once a query is submitted.
+    url.searchParams.set('autocomplete', options?.autocomplete ? 'true' : 'false');
 
     let response: Response;
     try {

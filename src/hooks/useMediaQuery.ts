@@ -26,5 +26,9 @@ export function useMediaQuery(query: string): boolean {
   return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }
 
-/** The width below which the dashboard stacks into a single column. */
-export const COMPACT_QUERY = '(max-width: 880px)';
+/**
+ * The width below which the dashboard stacks into a single column. Advanced metadata
+ * collapses behind a disclosure at the same boundary: in one column the expanded tables
+ * push the hero past 700px tall, and the forecast below it off the screen.
+ */
+export const COMPACT_QUERY = '(max-width: 1080px)';

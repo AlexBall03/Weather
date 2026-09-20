@@ -147,3 +147,18 @@ export function formatWind(speedMph: number | null, cardinal: string | null): st
   const speed = `${Math.round(speedMph)} mph`;
   return cardinal ? `${cardinal} ${speed}` : speed;
 }
+
+/**
+ * The deploy date for the footer, e.g. "September 19, 2026". Matches the portfolio's
+ * formatBuildDate: a fixed locale and no time component, so server and client agree.
+ */
+export function formatBuildDate(iso: string | undefined): string | null {
+  if (!iso) return null;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+}

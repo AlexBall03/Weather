@@ -9,9 +9,12 @@ const OPTIONS: Array<{ value: DisplayMode; label: string }> = [
 ];
 
 /**
- * A radiogroup rather than a checkbox: the control has two named states and both
- * need to be announceable. The saved preference arrives through useSyncExternalStore, so
- * the control is interactive from the first client commit.
+ * A radiogroup rather than a checkbox: the control has two named states and both need to
+ * be announceable. The saved preference arrives through useSyncExternalStore, so the
+ * control is interactive from the first client commit.
+ *
+ * Each option carries its own accent — Simple sits on the app's blue, Advanced on gold —
+ * so the mark of "you are in the technical view" is visible at a glance.
  */
 export function ModeToggle() {
   const { mode, setMode } = useMode();
@@ -24,7 +27,7 @@ export function ModeToggle() {
           type="button"
           role="radio"
           aria-checked={mode === option.value}
-          className="mode-toggle__option"
+          className={`mode-toggle__option mode-toggle__option--${option.value}`}
           onClick={() => setMode(option.value)}
         >
           {option.label}

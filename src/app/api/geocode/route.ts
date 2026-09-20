@@ -39,8 +39,14 @@ export async function GET(request: NextRequest): Promise<Response> {
 
   const provider = getGeocodingProvider();
 
+  // The typeahead sets this; a submitted query wants settled results, not prefix guesses.
+  const autocomplete = request.nextUrl.searchParams.get('autocomplete') === '1';
+
   try {
-    const results = await provider.forward(query.slice(0, MAX_QUERY_LENGTH));
+    const results = await provider.forward(query.slice(0, MAX_QUERY_LENGTH), {
+      limit: autocomplete ? 6 : 5,
+      autocomplete,
+    });
     return Response.json({ results, attribution: provider.attribution } satisfies GeocodeResponse, {
       // Place names are stable; caching identical searches spares the geocoding quota.
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },

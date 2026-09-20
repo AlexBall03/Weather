@@ -122,7 +122,7 @@ export function DailyForecast({ snapshot }: { snapshot: WeatherSnapshot }) {
   const days = snapshot.forecast.days.slice(0, DAYS_SHOWN);
 
   return (
-    <Panel className="panel--flush" labelledBy="daily-heading">
+    <Panel className="dashboard__daily panel--flush" labelledBy="daily-heading">
       <PanelHeader
         title="7-Day Forecast"
         id="daily-heading"

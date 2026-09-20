@@ -2,13 +2,14 @@
 
 import { LocationSearch } from '@/components/shell/LocationSearch';
 import { ModeToggle } from '@/components/shell/ModeToggle';
-import { UseMyLocationButton } from '@/components/shell/UseMyLocationButton';
 import { ACTIVE_NAV_SECTIONS } from '@/lib/nav';
 
 /**
- * Command-center header: the mark on the left, location controls and the detail toggle on
- * the right. On narrow screens the controls drop to their own row rather than shrinking
- * into unusable targets.
+ * Command-center header in three zones: identity left, location centre, detail level
+ * right. "Use My Location" lives as a crosshair inside the search field rather than a
+ * second wide button — one control for "where", one for "how much detail".
+ *
+ * On narrow screens the search drops to its own row and the toggle stays beside the mark.
  *
  * Navigation is driven by ACTIVE_NAV_SECTIONS. With one active section there is nothing to
  * navigate between, so no nav bar renders — the structure is there for when radar,
@@ -31,8 +32,8 @@ export function AppHeader() {
         </div>
 
         {showNav ? (
-          <nav aria-label="Sections">
-            <ul style={{ display: 'flex', gap: 'var(--s-4)' }}>
+          <nav className="header__nav" aria-label="Sections">
+            <ul>
               {ACTIVE_NAV_SECTIONS.map((section) => (
                 <li key={section.id}>
                   <a href={section.href}>{section.label}</a>
@@ -42,9 +43,11 @@ export function AppHeader() {
           </nav>
         ) : null}
 
-        <div className="header__controls">
+        <div className="header__search">
           <LocationSearch />
-          <UseMyLocationButton />
+        </div>
+
+        <div className="header__aside">
           <ModeToggle />
         </div>
       </div>
